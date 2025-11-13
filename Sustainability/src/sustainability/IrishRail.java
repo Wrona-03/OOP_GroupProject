@@ -8,34 +8,36 @@ package sustainability;
  *
  * @author wikto
  */
+
+import java.util.ArrayList;
 public class IrishRail {
 
-    protected String trainType;
-    protected String trainStation;
+    protected ArrayList<String> trainType;
+    protected ArrayList<String> trainStation;
     protected String lastStation;
     protected double carbonEmis;
 
     public IrishRail() {
-        trainType = new String();
-        trainStation = new String();
+        trainType = new ArrayList<>();
+            trainType.add(0, "Intercity");
+            trainType.add(1, "Commuter");
+            trainType.add(2, "DART");
+        trainStation = new ArrayList<>();
+            trainStation.add(0, "Dublin Heuston");
+            trainStation.add(1, "Dublin Connolly");
+            trainStation.add(2, "Dublin Pearse");
         lastStation = new String();
         carbonEmis = 0.0;
     }
+    
 
-    public String getTrainType() {
+
+    public ArrayList getTrainType() {
         return trainType;
     }
 
-    public void setTrainType(String trainType) {
-        this.trainType = trainType;
-    }
-
-    public String getTrainStation() {
+    public ArrayList getTrainStation() {
         return trainStation;
-    }
-
-    public void setTrainStation(String trainStation) {
-        this.trainStation = trainStation;
     }
 
     public String getLastStation() {
@@ -49,9 +51,4 @@ public class IrishRail {
     public double getCarbonEmis() {
         return carbonEmis;
     }
-
-    public void setCarbonEmis(double carbonEmis) {
-        this.carbonEmis = carbonEmis;
-    }
-
 }
