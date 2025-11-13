@@ -8,6 +8,10 @@ package sustainability;
  *
  * @author wikto
  */
+import javax.swing.ButtonGroup;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+
 public class SustainabilityGUI extends javax.swing.JFrame {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(SustainabilityGUI.class.getName());
@@ -27,6 +31,9 @@ public class SustainabilityGUI extends javax.swing.JFrame {
         trainComboBox.setVisible(false);
         LastStopInput.setVisible(false);
     }
+    
+        
+    
 
 
     /**
@@ -53,7 +60,7 @@ public class SustainabilityGUI extends javax.swing.JFrame {
         trainComboBox = new javax.swing.JComboBox<>();
         LastStopInput = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
+        CarbonEmisDisplay = new javax.swing.JTextArea();
         homeButton = new javax.swing.JButton();
 
         jTextArea1.setColumns(20);
@@ -94,9 +101,9 @@ public class SustainabilityGUI extends javax.swing.JFrame {
 
         trainComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jTextArea2.setColumns(20);
-        jTextArea2.setRows(5);
-        jScrollPane2.setViewportView(jTextArea2);
+        CarbonEmisDisplay.setColumns(20);
+        CarbonEmisDisplay.setRows(5);
+        jScrollPane2.setViewportView(CarbonEmisDisplay);
 
         homeButton.setText("Back to Home");
 
@@ -164,9 +171,9 @@ public class SustainabilityGUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(DepartingStationLbl)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(TrainTypeLbl)
-                        .addComponent(LastStopLbl)))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(LastStopLbl)
+                        .addComponent(TrainTypeLbl)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(StationComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -184,12 +191,51 @@ public class SustainabilityGUI extends javax.swing.JFrame {
 
     private void trainBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_trainBtnActionPerformed
         // TODO add your handling code here:
+        DepartingStationLbl.setVisible(true);
+        TrainTypeLbl.setVisible(true);
+        LastStopLbl.setVisible(true);
+        StationComboBox.setVisible(true);
+        trainComboBox.setVisible(true);
+        LastStopInput.setVisible(true);
+        DepartingStationLbl.setText("Departing station:");
+        TrainTypeLbl.setText("Train type:");
+        LastStopLbl.setText("Last Stop:");
+        LastStopInput.setText("");
     }//GEN-LAST:event_trainBtnActionPerformed
 
     private void StationComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StationComboBoxActionPerformed
         // TODO add your handling code here:
+        
     }//GEN-LAST:event_StationComboBoxActionPerformed
 
+    private void LuasBtnActionPerformed(java.awt.event.ActionEvent evt){
+        // Change the contents of the labels, combo boxes, etc
+        DepartingStationLbl.setVisible(true);
+        TrainTypeLbl.setVisible(true);
+        LastStopLbl.setVisible(true);
+        StationComboBox.setVisible(true);
+        trainComboBox.setVisible(true);
+        LastStopInput.setVisible(true);
+        DepartingStationLbl.setText("First Stop:");
+        TrainTypeLbl.setText("Last Stop:");
+        LastStopLbl.setText("Luas Line:");
+        LastStopInput.setText("");
+        
+    }
+    
+    private void BusBtnActionPerformed(java.awt.event.ActionEvent evt){
+        // Change the contents of the labels, combo boxes, etc
+        DepartingStationLbl.setVisible(false);
+        TrainTypeLbl.setVisible(true);
+        LastStopLbl.setVisible(false);
+        StationComboBox.setVisible(false);
+        trainComboBox.setVisible(true);
+        LastStopInput.setVisible(false);
+        DepartingStationLbl.setText("");
+        TrainTypeLbl.setText("Bus Type:");
+        LastStopLbl.setText("");
+        LastStopInput.setText("");
+    }
     /**
      * @param args the command line arguments
      */
@@ -217,6 +263,7 @@ public class SustainabilityGUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JRadioButton BusBtn;
+    private javax.swing.JTextArea CarbonEmisDisplay;
     private javax.swing.JLabel DepartingStationLbl;
     private javax.swing.JTextField LastStopInput;
     private javax.swing.JLabel LastStopLbl;
@@ -229,7 +276,6 @@ public class SustainabilityGUI extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextArea jTextArea2;
     private javax.swing.JLabel publicTransportLabel;
     private javax.swing.JRadioButton trainBtn;
     private javax.swing.JComboBox<String> trainComboBox;

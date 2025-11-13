@@ -87,7 +87,7 @@ public class Luas {
         lastStopRed.add("Mayor Square - NCI");
         lastStopRed.add("Spencer Dock");
         lastStopRed.add("The Point");
-        
+
         firstStopGreen = new ArrayList<>();
         firstStopGreen.add("Bride's Glen");
         firstStopGreen.add("Cherrywood");
@@ -124,7 +124,7 @@ public class Luas {
         firstStopGreen.add("Phibsborough");
         firstStopGreen.add("Cabra");
         firstStopGreen.add("Broombridge");
-        
+
         lastStopGreen = new ArrayList<>();
         lastStopGreen.add("Bride's Glen");
         lastStopGreen.add("Cherrywood");
@@ -169,6 +169,23 @@ public class Luas {
 
     public void setLuasLine(String luasLine) {
         this.luasLine = luasLine;
+
+    }
+
+    public ArrayList<String> getFirstStopRed() {
+        return firstStopRed;
+    }
+
+    public ArrayList<String> getLastStopRed() {
+        return lastStopRed;
+    }
+
+    public ArrayList<String> getFirstStopGreen() {
+        return firstStopGreen;
+    }
+
+    public ArrayList<String> getLastStopGreen() {
+        return lastStopGreen;
     }
 
 }

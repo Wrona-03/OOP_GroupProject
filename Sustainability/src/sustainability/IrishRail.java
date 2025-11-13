@@ -32,11 +32,11 @@ public class IrishRail {
     
 
 
-    public ArrayList getTrainType() {
+    public ArrayList<String> getTrainType() {
         return trainType;
     }
 
-    public ArrayList getTrainStation() {
+    public ArrayList<String> getTrainStation() {
         return trainStation;
     }
 
