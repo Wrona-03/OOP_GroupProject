@@ -24,7 +24,7 @@ import static javax.swing.JOptionPane.WARNING_MESSAGE;
 public class ReceiptsGUI extends javax.swing.JFrame {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(ReceiptsGUI.class.getName());
-    private ArrayList<Receipt> rList;
+    private ArrayList<Receipt> rList; //arraylist to save object
     private double depositAmount;
     private String storeName;
     private String storeLocation;
@@ -33,14 +33,18 @@ public class ReceiptsGUI extends javax.swing.JFrame {
      * Creates new form ReceiptsGUI
      */
     public ReceiptsGUI() {
+        //initialize empty arraylist
         rList = new ArrayList();
         depositAmount = 0.0;
         storeName = new String();
         storeLocation = new String();
         initComponents();
+        //modify ui
         setSize(500, 300);
         getContentPane().setBackground(Color.WHITE);
+        //load saved receipts
         load();
+        //set labels
         updateDisplay();
 
     }
@@ -270,9 +274,11 @@ public class ReceiptsGUI extends javax.swing.JFrame {
     private void addReceiptBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addReceiptBtnActionPerformed
         // TODO add your handling code here:
         try {
+            //grab value from text fields
             depositAmount = Double.parseDouble(depositAmountTf.getText());
             storeName = storeNameTf.getText();
             storeLocation = storeLocationTf.getText();
+            //only add receipt if deposit amount is not zero
             if (depositAmount != 0.0) {
                 Receipt r = new Receipt();
                 r.setId(rList.size() + 1);
@@ -281,7 +287,7 @@ public class ReceiptsGUI extends javax.swing.JFrame {
                 r.setStoreLocation(storeLocation);
                 rList.add(r);
             }
-
+        //data validation - catch non-integer inputs
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Please enter a deposit amount", "Invalid input", WARNING_MESSAGE);
         }
@@ -306,6 +312,7 @@ public class ReceiptsGUI extends javax.swing.JFrame {
     private void deleteReceiptBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteReceiptBtnActionPerformed
         // TODO add your handling code here:
         try {
+            //delete by id
             int searchTerm = Integer.parseInt(JOptionPane.showInputDialog("Enter id of receipt to delete"));
             boolean found = false;
             for (int i = 0; i < rList.size(); i++) {
@@ -335,7 +342,7 @@ public class ReceiptsGUI extends javax.swing.JFrame {
     private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
         // TODO add your handling code here:
         searchBtn.setRequestFocusEnabled(false);
-
+        //search according to radio button selected
         if (searchByIDRb.isSelected()) {
             try {
                 int searchID = Integer.parseInt(JOptionPane.showInputDialog("Enter id of receipt to display"));
@@ -450,8 +457,8 @@ public class ReceiptsGUI extends javax.swing.JFrame {
         try {
             fStream = new FileInputStream(inFile);
             oStream = new ObjectInputStream(fStream);
-            
             rList = (ArrayList<Receipt>) oStream.readObject();
+            //set text area with each receipt
             for (Receipt r : rList) {
                 receiptTA.append(
                         "ID: " + r.getId() + "\n"

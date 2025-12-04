@@ -15,7 +15,7 @@ public class Receipt implements Serializable{
     private double depositAmount;
     private String storeName;
     private String storeLocation;
-
+//Constructor
     public Receipt() {
         this.id = 0;
         this.depositAmount = 0.0;
@@ -23,7 +23,7 @@ public class Receipt implements Serializable{
         this.storeLocation = new String();
     }
     
-
+//Getters and setters
     public double getDepositAmount() {
         return depositAmount;
     }
@@ -54,8 +54,6 @@ public class Receipt implements Serializable{
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    
+    }    
     
 }

@@ -26,7 +26,8 @@ public class ItemLog implements Serializable {
     private int lifetimeCount;
     private double lifetimeDeposit;
     private Reminder reminder;
-//constructor
+
+//Constructor
 
     public ItemLog() {
         this.smallCount = 0;
@@ -37,7 +38,7 @@ public class ItemLog implements Serializable {
         this.lifetimeDeposit = 0.0;
         this.reminder = new Reminder(); //initialize reminder
     }
-//getters and setters
+//Getters and Setters
 
     public int getSmallCount() {
         return smallCount;
@@ -91,14 +92,17 @@ public class ItemLog implements Serializable {
         return reminder;
     }
 
-//methods
+//Methods
     public double addToPending(int quantity, double depositPerItem, boolean small) {
+        //tally size-based counts to display in return items screen
         if (small) {
             this.smallCount += quantity;
         } else {
             this.largeCount += quantity;
         }
+        //calculate deposit from parameters
         double calculatedDeposit = quantity * depositPerItem;
+        //update totals
         this.pendingCount += quantity;
         this.pendingDeposit += calculatedDeposit;
         this.lifetimeCount += quantity;
@@ -134,8 +138,10 @@ public class ItemLog implements Serializable {
 
             fStream = new FileInputStream(inFile);
             oStream = new ObjectInputStream(fStream);
+            //load saved object from file
             ItemLog loaded;
             loaded = (ItemLog) oStream.readObject();
+            //copy loaded values into current object
             this.smallCount = loaded.smallCount;
             this.largeCount = loaded.largeCount;
             this.pendingCount = loaded.pendingCount;

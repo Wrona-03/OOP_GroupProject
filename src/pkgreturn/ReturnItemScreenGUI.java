@@ -22,12 +22,15 @@ public class ReturnItemScreenGUI extends javax.swing.JFrame {
      * Creates new form AddItemScreenGUI
      */
     public ReturnItemScreenGUI() {
+        //initialize in constructor
         log = new ItemLog();
+        //load object from file
         log.load();
+        //modify UI
         initComponents();
-        setSize(500, 300);   
+        setSize(500, 300);
         getContentPane().setBackground(Color.WHITE);
-
+        //set labels
         hideLabels();
         updateDisplays();
     }
@@ -284,54 +287,61 @@ public class ReturnItemScreenGUI extends javax.swing.JFrame {
         int largeReturnCount;
         int calculatedCount;
         double calculatedDeposit;
-        if (smallTf.getText().isEmpty()) {
-            smallReturnCount = 0;
-        } else {
-            smallReturnCount = Integer.parseInt(smallTf.getText());
-            if (smallTotal >= smallReturnCount) {
-                smallTotal -= smallReturnCount;
+        try {
+            //return items through small and large text fields
+            if (smallTf.getText().isEmpty()) {
+                smallReturnCount = 0;
             } else {
-                JOptionPane.showMessageDialog(rootPane, "Cannot return more items than pending.", "Invalid input", WARNING_MESSAGE);
-                return;
+                smallReturnCount = Integer.parseInt(smallTf.getText());
+                if (smallTotal >= smallReturnCount) {
+                    smallTotal -= smallReturnCount;
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "Cannot return more items than pending.", "Invalid input", WARNING_MESSAGE);
+                    return;
+                }
             }
-        }
-        if (largeTf.getText().isEmpty()) {
-            largeReturnCount = 0;
-        } else {
-            largeReturnCount = Integer.parseInt(largeTf.getText());
-            if (largeTotal >= largeReturnCount) {
-                largeTotal -= largeReturnCount;
+            if (largeTf.getText().isEmpty()) {
+                largeReturnCount = 0;
             } else {
-                JOptionPane.showMessageDialog(rootPane, "Cannot return more items than pending.", "Invalid input", WARNING_MESSAGE);
-                return;
+                largeReturnCount = Integer.parseInt(largeTf.getText());
+                if (largeTotal >= largeReturnCount) {
+                    largeTotal -= largeReturnCount;
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "Cannot return more items than pending.", "Invalid input", WARNING_MESSAGE);
+                    return;
+
+                }
 
             }
+            //calculate
+            calculatedCount = smallReturnCount + largeReturnCount;
+            calculatedDeposit = smallReturnCount * 0.15 + largeReturnCount * 0.25;
+            int pendingCount = log.getPendingCount();
+            double pendingDeposit = log.getPendingDeposit();
 
+            pendingCount -= calculatedCount;
+            pendingDeposit -= calculatedDeposit;
+            //set values
+            log.setSmallCount(smallTotal);
+            log.setLargeCount(largeTotal);
+            log.setPendingCount(pendingCount);
+            log.setPendingDeposit(pendingDeposit);
+
+            //update labels
+            totalReturnedItemsLbl.setVisible(true);
+            returnedDepositLbl.setVisible(true);
+            calculatedCountDisplay.setVisible(true);
+            calculatedDepositDisplay.setVisible(true);
+            calculatedCountDisplay.setText(String.valueOf(calculatedCount));
+            calculatedDepositDisplay.setText(String.format("%.2f", calculatedDeposit));
+            updateDisplays();
+
+            log.save();
+        } 
+        //data validation - catch non-integer inputs
+        catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Please enter an integer");
         }
-        //calculate
-        calculatedCount = smallReturnCount + largeReturnCount;
-        calculatedDeposit = smallReturnCount * 0.15 + largeReturnCount * 0.25;
-        int pendingCount = log.getPendingCount();
-        double pendingDeposit = log.getPendingDeposit();
-        
-        pendingCount -= calculatedCount;
-        pendingDeposit -= calculatedDeposit;
-        //set values
-        log.setSmallCount(smallTotal);
-        log.setLargeCount(largeTotal);
-        log.setPendingCount(pendingCount);
-        log.setPendingDeposit(pendingDeposit);
-
-        //update labels
-        totalReturnedItemsLbl.setVisible(true);
-        returnedDepositLbl.setVisible(true);
-        calculatedCountDisplay.setVisible(true);
-        calculatedDepositDisplay.setVisible(true);
-        calculatedCountDisplay.setText(String.valueOf(calculatedCount));
-        calculatedDepositDisplay.setText(String.format("%.2f", calculatedDeposit));
-        updateDisplays();
-
-        log.save();
         clear();
     }//GEN-LAST:event_markReturnedBtnActionPerformed
 
@@ -342,7 +352,7 @@ public class ReturnItemScreenGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_clearBtnActionPerformed
 
     private void markAllReturnedBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_markAllReturnedBtnActionPerformed
-        //set values
+        //dialog asks for confirmation
         int dialogResult = JOptionPane.showConfirmDialog(rootPane, "Are you sure you want to return all pending containers?", "Return all items", OK_CANCEL_OPTION);
         if (dialogResult == 0) {
             log.setSmallCount(0);

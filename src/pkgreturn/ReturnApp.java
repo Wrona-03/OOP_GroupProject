@@ -15,6 +15,7 @@ public class ReturnApp {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        //call the app's central menu gui
         ReturnMenuGUI myreturnMenuGUI = new ReturnMenuGUI();
         myreturnMenuGUI.setVisible(true);
     }

@@ -21,12 +21,17 @@ public class ReminderScreenGUI extends javax.swing.JFrame {
      * Creates new form ReminderScreenGUI
      */
     public ReminderScreenGUI() {
+        //initialize in constructor
         log = new ItemLog();
+        //load object from file
         log.load();
         initComponents();
-        setSize(500, 300);   
+        //modify UI
+        setSize(500, 300);
         getContentPane().setBackground(Color.WHITE);
+        //set labels
         updateDisplays();
+        //load saved numbers into reminder and milestone text fields
         loadSettings();
 
     }
@@ -255,37 +260,41 @@ public class ReminderScreenGUI extends javax.swing.JFrame {
 
     private void clearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearBtnActionPerformed
         // TODO add your handling code here:
+        clear();
 
-        reminderTf.setText("");
-        milestoneTf.setText("");
 
     }//GEN-LAST:event_clearBtnActionPerformed
 
     private void saveSettingsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveSettingsBtnActionPerformed
         //data validaton - set textfields to zero if blank
-        int reminderThreshold = reminderTf.getText().isBlank()
-                ? 0
-                : Integer.parseInt(reminderTf.getText());
-        int milestone = milestoneTf.getText().isBlank()
-                ? 0
-                : Integer.parseInt(milestoneTf.getText());
+        try {
+            int reminderThreshold = reminderTf.getText().isBlank()
+                    ? 0
+                    : Integer.parseInt(reminderTf.getText());
+            int milestone = milestoneTf.getText().isBlank()
+                    ? 0
+                    : Integer.parseInt(milestoneTf.getText());
 
-        //set to log
-        log.getReminder().setReminderThreshold(reminderThreshold);
-        log.getReminder().setMilestone(milestone);
+            //set to log
+            log.getReminder().setReminderThreshold(reminderThreshold);
+            log.getReminder().setMilestone(milestone);
 
-        String reminderStatus = (reminderThreshold == 0)
-                ? "Not set"
-                : log.getReminder().getReminderThreshold() + " items";
+            String reminderStatus = (reminderThreshold == 0)
+                    ? "Not set"
+                    : log.getReminder().getReminderThreshold() + " items";
 
-        String milestoneStatus = (milestone == 0)
-                ? "Not set"
-                : log.getReminder().getMilestone() + " items";
+            String milestoneStatus = (milestone == 0)
+                    ? "Not set"
+                    : log.getReminder().getMilestone() + " items";
 
-        //show message
-        JOptionPane.showMessageDialog(rootPane, "Settings saved!\nReminder: " + reminderStatus + "\nMilestone: " + milestoneStatus);
-
-        log.save();
+            //show message
+            JOptionPane.showMessageDialog(rootPane, "Settings saved!\nReminder: " + reminderStatus + "\nMilestone: " + milestoneStatus);
+            log.save();
+        } //data validation - catch non-integer inputs
+        catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Please enter an integer");
+            clear();
+        }
     }//GEN-LAST:event_saveSettingsBtnActionPerformed
 
     private void resetStatsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetStatsBtnActionPerformed
@@ -302,8 +311,13 @@ public class ReminderScreenGUI extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_resetStatsBtnActionPerformed
+    private void clear() {
+        reminderTf.setText("");
+        milestoneTf.setText("");
+    }
 
     private void loadSettings() {
+        //fill text fields with saved values
         if (log.getReminder().getReminderThreshold() != 0) {
             reminderTf.setText(String.valueOf(log.getReminder().getReminderThreshold()));
         } else {

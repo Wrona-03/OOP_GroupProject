@@ -21,17 +21,21 @@ public class AddItemScreenGUI extends javax.swing.JFrame {
      * Creates new form AddItemScreenGUI
      */
     public AddItemScreenGUI() {
+        //initialize in constructor
         log = new ItemLog();
+        //load object from file
         log.load();
         initComponents();
-        setSize(500, 300);   
+        //modify UI
+        setSize(500, 300);
         getContentPane().setBackground(Color.WHITE);
+        //set labels
         calculatedDepositLbl.setVisible(false);
         calculatedDepositDisplay.setVisible(false);
         updateDisplays();
-        log.getReminder().checkReminder(log.getPendingCount(),rootPane);
+        //display notifications
+        log.getReminder().checkReminder(log.getPendingCount(), rootPane);
         log.getReminder().checkMilestone(log.getLifetimeCount(), rootPane);
-        dispose();
     }
 
     /**
@@ -215,32 +219,37 @@ public class AddItemScreenGUI extends javax.swing.JFrame {
         }
 
         //get values
-        int quantity = Integer.parseInt(quantityTf.getText().trim());
-        double depositPerItem;
-        boolean small;
-        //assign deposit value based on size chosen
-        if (smallRB.isSelected()) {
-            depositPerItem = 0.15;
-            small = true;
-        } else if (largeRB.isSelected()) {
-            depositPerItem = 0.25;
-            small = false;
-        } else {
-            JOptionPane.showMessageDialog(rootPane, "Please select a size.", "Warning", WARNING_MESSAGE);
-            return;
+        try {
+            int quantity = Integer.parseInt(quantityTf.getText().trim());
+            double depositPerItem;
+            boolean small;
+            //assign deposit value based on size chosen
+            if (smallRB.isSelected()) {
+                depositPerItem = 0.15;
+                small = true;
+            } else if (largeRB.isSelected()) {
+                depositPerItem = 0.25;
+                small = false;
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "Please select a size.", "Warning", WARNING_MESSAGE);
+                return;
+            }
+            //update labels
+            calculatedDepositLbl.setVisible(true);
+            calculatedDepositDisplay.setVisible(true);
+            calculatedDepositDisplay.setText(String.format("%.2f", log.addToPending(quantity, depositPerItem, small)));
+            updateDisplays();
+
+            //check if reminder and milestone are met
+            log.getReminder().checkReminder(log.getPendingCount(), rootPane);
+            log.getReminder().checkMilestone(log.getLifetimeCount(), rootPane);
+            //save
+            log.save();
+        } //data validation - catch non-integer inputs
+        catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Please enter an integer");
         }
 
-        //update labels
-        calculatedDepositLbl.setVisible(true);
-        calculatedDepositDisplay.setVisible(true);
-        calculatedDepositDisplay.setText(String.format("%.2f", log.addToPending(quantity, depositPerItem, small)));
-        updateDisplays();
-
-        //check if reminder and milestone are met
-        log.getReminder().checkReminder(log.getPendingCount(),rootPane);
-        log.getReminder().checkMilestone(log.getLifetimeCount(),rootPane);
-        //save
-        log.save();
     }//GEN-LAST:event_addToPendingBtnActionPerformed
 
     private void quantityTfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quantityTfActionPerformed
